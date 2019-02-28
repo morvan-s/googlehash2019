@@ -6,5 +6,4 @@ class Slide:
         sum_tags = []
         for p in self.photos:
             sum_tags += p.tags
-
         return list(set(sum_tags))

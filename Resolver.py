@@ -102,6 +102,7 @@ class Resolver:
                 for v in self.slidesByTags[current_tags]:
                     if v not in voisins:
                         voisins[v]=True
+                        voisins.append(v)
                         score = self.score_beetween_slide(current_slide,v)
                         if score < best_voisin_score:
                             best_voisin_score = score
