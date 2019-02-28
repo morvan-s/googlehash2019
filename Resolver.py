@@ -10,6 +10,8 @@ class Resolver:
         self.verticalPhotos = []
         self.slideshow = []
         self.readInput("inputs/" + inputName + '.txt')
+        self.vertical_merge()
+        self.complete_slideshow()
         self.writeOutput("outputs/" + inputName + '.txt')
 
     def readInput(self,inputFile):
@@ -67,24 +69,23 @@ class Resolver:
                 if t not in self.slidesByTags.keys():
                     self.slidesByTags[t] = []
                 self.slidesByTags[t].append(s)
-<<<<<<< HEAD
 
-    def score_beetween_slide(a,b):
+    def score_beetween_slide(self,a,b):
         in_a={}
         in_both={}
         in_b={}
-        for t in a.tags:
-            if t in b.tags:
+        for t in a.tags():
+            if t in b.tags():
                 in_both[t] = True
             else:
                 in_a[t] = True
-        for t in b.tags:
-            if t not in a.tags:
+        for t in b.tags():
+            if t not in a.tags():
                 in_b[t] = True
         return min(len(in_a.keys()),len(in_both.keys()),len(in_b.keys()))
 
     def complete_slideshow(self):
-        current_slide = list(self.slidesByTags.keys())[0]
+        current_slide = list(self.slidesByTags.values())[0][0]
         best_voisin = current_slide
 
         while(best_voisin != None):
@@ -93,32 +94,26 @@ class Resolver:
 
             self.slideshow.append(current_slide)
             #remove les tags associé à l'objet current
-            for tag in current_slide.tags:
+            for tag in current_slide.tags():
                 self.slidesByTags[tag].remove(current_slide)
 
             best_voisin_score = 1000000000000000
-            for current_tags in current_slide.tags:
+            for current_tags in current_slide.tags():
                 for v in self.slidesByTags[current_tags]:
                     if v not in voisins:
-                        voisins.append(v)
-                        score = score_beetween_slide(current_slide,v)
+                        voisins[v]=True
+                        score = self.score_beetween_slide(current_slide,v)
                         if score < best_voisin_score:
                             best_voisin_score = score
                             best_voisin = v
             current_slide = best_voisin
 
-=======
-    
->>>>>>> 6978a421086831aa2d9214c0929f623b567583b4
     def writeOutput(self, outputFile):
         file = open(outputFile, "w")
         file.write(str(len(self.slideshow)) + "\n")
         for slide in self.slideshow:
-            for photo in slide.photos:
-                file.write(photo.id)
+            for i in range(0,len(slide.photos)):
+                photo = slide.photos[i]
+                file.write((" " if i != 0 else "") + str(photo.id))
             file.write("\n")
-<<<<<<< HEAD
         file.close()
-=======
-        file.close()
->>>>>>> 6978a421086831aa2d9214c0929f623b567583b4
