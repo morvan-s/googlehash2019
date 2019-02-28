@@ -4,13 +4,13 @@ from Slide import Slide
 MAX_LIMIT = 1000
 class Resolver:
 
-    def __init__(self, inputFile):
-        self.inputFile = inputFile
+    def __init__(self, inputName):
+        self.inputName = inputName
         self.slidesByTags = {}
         self.verticalPhotos = []
         self.slideshow = []
-        self.readInput(inputFile)
-        print(self.find_moyenne())
+        self.readInput("inputs/" + inputName + '.txt')
+        self.writeOutput("outputs/" + inputName + '.txt')
 
     def readInput(self,inputFile):
         with open(inputFile) as fp:
@@ -42,7 +42,7 @@ class Resolver:
 
     def find_vertical_merge(self, moyenne):
         assert len(self.verticalPhotos) > 1
-        a = self.verticalPhotos.shift()
+        a = self.verticalPhotos.pop()
         b = self.verticalPhotos[0]
         dist = len(set(a.tags+b.tags))
         best_dist = dist
@@ -55,19 +55,18 @@ class Resolver:
                 best_index_b = index_b
                 b =  self.verticalPhotos[index_b]
             index_b += 1
-        del self.verticalPhotos[]
+        del self.verticalPhotos[best_index_b]
         return a,b
 
     def vertical_merge(self):
-        moy = find_moyenne(self)
-        while(self.verticalPhotos > 0):
-            a,b = find_vertical_merge(r,moy)
+        moy = self.find_moyenne()
+        while(len(self.verticalPhotos) > 0):
+            a,b = self.find_vertical_merge(moy)
             s = Slide([a,b])
-            for t in set(a.tags,b.tags):
-                if t in self.slidesByTags:
-                    self.slidesByTags[t].append(s)
-                else:
-                    self.slidesByTags[t]=[s]
+            for t in set(a.tags+b.tags):
+                if t not in self.slidesByTags.keys():
+                    self.slidesByTags[t] = []
+                self.slidesByTags[t].append(s)
 
     def score_beetween_slide(a,b):
         in_a={}
@@ -106,3 +105,12 @@ class Resolver:
                             best_voisin_score = score
                             best_voisin = v
             current_slide = best_voisin
+
+    def writeOutput(self, outputFile):
+        file = open(outputFile, "w")
+        file.write(str(len(self.slideshow)) + "\n")
+        for slide in self.slideshow:
+            for photo in slide.photos:
+                file.write(photo.id)
+            file.write("\n")
+        file.close()

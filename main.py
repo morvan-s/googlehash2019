@@ -19,4 +19,4 @@ if letter not in inputs.keys():
     print("Error : wrong input name !")
     sys.exit()
 
-Resolver("inputs/" + inputs[letter] + ".txt")
+Resolver(inputs[letter])
