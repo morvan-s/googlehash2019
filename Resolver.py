@@ -8,6 +8,7 @@ class Resolver:
         self.inputFile = inputFile
         self.slidesByTags = {}
         self.verticalPhotos = []
+        self.slideshow = []
         self.readInput(inputFile)
 
     def readInput(self,inputFile):
@@ -45,12 +46,15 @@ class Resolver:
         dist = len(set(a.tags+b.tags))
         best_dist = dist
         index_b = 1
+        best_index_b = 0
         while (dist < moyenne * 0.95 and dist > moyenne * 1.05) and (index_b < len(self.verticalPhotos)):
             dist = len(set(a.tags+self.verticalPhotos[index_b].tags))
             if abs(moyenne - dist) < abs(moyenne - best_dist):
                 best_dist = dist
+                best_index_b = index_b
                 b =  self.verticalPhotos[index_b
             index_b += 1
+        del self.verticalPhotos[]
         return a,b
 
     def vertical_merge(self):
@@ -59,4 +63,7 @@ class Resolver:
             a,b = find_vertical_merge(r,moy)
             s = Slide([a,b])
             for t in set(a.tags,b.tags):
-                print(t)
+                if t in self.slidesByTags:
+                    self.slidesByTags[t].append(s)
+                else:
+                    self.slidesByTags[t]=[s]
