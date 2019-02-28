@@ -102,12 +102,23 @@ class Resolver:
                 for v in self.slidesByTags[current_tags]:
                     if v not in voisins:
                         voisins[v]=True
-                        voisins.append(v)
                         score = self.score_beetween_slide(current_slide,v)
                         if score < best_voisin_score:
                             best_voisin_score = score
                             best_voisin = v
+                    if len(voisins.keys()) > 50:
+                        break
+                if len(voisins.keys()) > 50:
+                    break
+            if best_voisin == None: best_voisin = self.find_another_voisin()
             current_slide = best_voisin
+
+    def find_another_voisin(self):
+        res = None
+        for l in list(self.slidesByTags.values()):
+            if len(l) >= 1:
+                return l[0]
+        return res
 
     def writeOutput(self, outputFile):
         file = open(outputFile, "w")
