@@ -106,9 +106,9 @@ class Resolver:
                         if score < best_voisin_score:
                             best_voisin_score = score
                             best_voisin = v
-                    if len(list(voisins.keys())) > 10:
+                    if len(list(voisins.keys())) > 50:
                         break
-                if len(list(voisins.keys())) > 10:
+                if len(list(voisins.keys())) > 50:
                     break
             if best_voisin == None: best_voisin = self.find_another_voisin()
             current_slide = best_voisin
