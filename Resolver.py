@@ -67,6 +67,7 @@ class Resolver:
                 if t not in self.slidesByTags.keys():
                     self.slidesByTags[t] = []
                 self.slidesByTags[t].append(s)
+<<<<<<< HEAD
 
     def score_beetween_slide(a,b):
         in_a={}
@@ -106,6 +107,9 @@ class Resolver:
                             best_voisin = v
             current_slide = best_voisin
 
+=======
+    
+>>>>>>> 6978a421086831aa2d9214c0929f623b567583b4
     def writeOutput(self, outputFile):
         file = open(outputFile, "w")
         file.write(str(len(self.slideshow)) + "\n")
@@ -113,4 +117,8 @@ class Resolver:
             for photo in slide.photos:
                 file.write(photo.id)
             file.write("\n")
+<<<<<<< HEAD
         file.close()
+=======
+        file.close()
+>>>>>>> 6978a421086831aa2d9214c0929f623b567583b4
