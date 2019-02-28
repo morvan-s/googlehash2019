@@ -68,3 +68,41 @@ class Resolver:
                     self.slidesByTags[t].append(s)
                 else:
                     self.slidesByTags[t]=[s]
+
+    def score_beetween_slide(a,b):
+        in_a={}
+        in_both={}
+        in_b={}
+        for t in a.tags:
+            if t in b.tags:
+                in_both[t] = True
+            else:
+                in_a[t] = True
+        for t in b.tags:
+            if t not in a.tags:
+                in_b[t] = True
+        return min(len(in_a.keys()),len(in_both.keys()),len(in_b.keys()))
+
+    def complete_slideshow(self):
+        current_slide = list(self.slidesByTags.keys())[0]
+        best_voisin = current_slide
+
+        while(best_voisin != None):
+            best_voisin = None
+            voisins = {}
+
+            self.slideshow.append(current_slide)
+            #remove les tags associé à l'objet current
+            for tag in current_slide.tags:
+                self.slidesByTags[tag].remove(current_slide)
+
+            best_voisin_score = 1000000000000000
+            for current_tags in current_slide.tags:
+                for v in self.slidesByTags[current_tags]:
+                    if v not in voisins:
+                        voisins.append(v)
+                        score = score_beetween_slide(current_slide,v)
+                        if score < best_voisin_score:
+                            best_voisin_score = score
+                            best_voisin = v
+            current_slide = best_voisin
