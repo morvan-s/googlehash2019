@@ -1,8 +1,8 @@
 from Photo import Photo
 from Slide import Slide
 
+MAX_LIMIT = 1000
 class Resolver:
-    MAX_LIMIT = 1000
 
     def __init__(self, inputFile):
         self.inputFile = inputFile
@@ -10,6 +10,7 @@ class Resolver:
         self.verticalPhotos = []
         self.slideshow = []
         self.readInput(inputFile)
+        print(self.find_moyenne())
 
     def readInput(self,inputFile):
         with open(inputFile) as fp:
@@ -37,7 +38,7 @@ class Resolver:
             for u in range(0,limit):
                 number = len(set(self.verticalPhotos[i].tags + self.verticalPhotos[u].tags))
                 number_tags += number
-        return number_tags /= limit
+        return 0 if limit == 0 else number_tags / limit
 
     def find_vertical_merge(self, moyenne):
         assert len(self.verticalPhotos) > 1
@@ -52,7 +53,7 @@ class Resolver:
             if abs(moyenne - dist) < abs(moyenne - best_dist):
                 best_dist = dist
                 best_index_b = index_b
-                b =  self.verticalPhotos[index_b
+                b =  self.verticalPhotos[index_b]
             index_b += 1
         del self.verticalPhotos[]
         return a,b
